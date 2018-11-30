@@ -1,0 +1,204 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@PageBundle/Resources/config/services.yml" }
+    - { resource: "@GalleryBundle/Resources/config/services.yml" }
+    - { resource: "@UserBundle/Resources/config/services.yml" }
+    - { resource: "@AdminBundle/Resources/config/services.yml" }
+    - { resource: "@PageListBundle/Resources/config/services.yml" }
+    - { resource: "@RichTextBundle/Resources/config/services.yml" }
+    - { resource: "@VideoBundle/Resources/config/services.yml" }
+
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+    files_directory: '%kernel.root_dir%/../web/uploads/'
+    theme:
+        blanc: blanc
+        bleu: bleu
+        gris: gris
+        dropdown: dropdown
+        grand image + texte: bigImg
+        image + fond gris: imgGris
+        image + fond blanc: imgBlanc
+    videoPos:
+        gauche: gauche
+        droite: droite
+    imagePos:
+        gauche: gauche
+        droite: droite
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+#assetic
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+        jsqueeze:   ~
+        scssphp:
+            formatter:  'Leafo\ScssPhp\formatter\Compressed'
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes: ['bootstrap_4_layout.html.twig']
+    globals:
+        webPath: 'uploads/'
+
+knp_menu:
+    # use "twig: false" to disable the Twig extension and the TwigRenderer
+    twig:
+        template: KnpMenuBundle::menu.html.twig
+    #  if true, enables the helper for PHP templates
+    templating: false
+    # the renderer to use, list is also available by default
+    default_renderer: twig
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_pgsql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/../var/data/data.sqlite"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: kapla\user\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: "%alcmail%"
+        sender_name: Acensi Learning Center
+
+stof_doctrine_extensions:
+    default_locale: fr
+    orm:
+        default:
+            tree: true
+            sluggable: true
+
+ivory_ck_editor:
+    default_config: my_config
+    configs:
+        my_config:
+            language:                   "%locale%"
+#            toolbar:                    "standard"          # Charger la toolbar tollbar_1 (voir plus bas)
+            toolbar:                    "my_toolbar_1"
+            stylesSet:                  "my_styles"         # Chargement des styles personnalisables my_styles (voir plus bas)
+            uiColor:                    "#FCFCFC"           # Couleur de fond de l'interface
+            height:                     "350px"             # Hauteur par défaut
+            contentsCss:                ['bundles/app/css/style.css'] # Charge les styles dans l'éditeur (permet de voir en temps réel le résultat)
+            styles:         # Configuration des styles personnalisables
+        my_styles:
+            - { name: "Alert Success", element: "div",  attributes: { class: "alert alert-success", role: "alert" }}
+            - { name: "Alert Info", element: "div",  attributes: { class: "alert alert-info", role: "alert" }}
+            - { name: "Alert Warning", element: "div",  attributes: { class: "alert alert-warning", role: "alert" }}
+            - { name: "Alert Danger", element: "div",  attributes: { class: "alert alert-danger", role: "alert" }}
+            - { name: "Badge", element: "span",  attributes: { class: "badge" }}
+    toolbars:
+        configs:
+            my_toolbar_1: [ [ 'Preview' ], [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ], [ 'Source' ], [ "About" ], "/", [ 'Bold','Italic','Underline','Strike', 'Blockquote','-','RemoveFormat' ], [ 'NumberedList','BulletedList','-','Outdent','Indent','-','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ], [ 'Link','Unlink','Anchor' ], [ 'pbckcode', 'Image', 'Video', 'Table','SpecialChar','Iframe' ], '/', [ 'Format','Font','FontSize' ], [ 'TextColor','BGColor' ], [ 'RemoveFormat' ], [ 'Maximize' ] ]
+
+
+#Liip Imagine
+liip_imagine :
+    resolvers :
+        default :
+            web_path : ~
+
+    filter_sets :
+        cache : ~
+
+        # the name of the "filter set"
+        pagelistimg4 :
+
+            # adjust the image quality to 75%
+            quality : 75
+
+            # list of transformations to apply (the "filters")
+            filters :
+
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail  : { size : [211, 85], mode : outbound }
+
+        pagelistimg3:
+
+            # adjust the image quality to 75%
+            quality : 75
+
+            # list of transformations to apply (the "filters")
+            filters :
+
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail  : { size : [300, 120], mode : outbound }
+
+#Pagination
+knp_paginator:
+    page_range: 5                       # number of links showed in the pagination menu (e.g: you have 10 pages, a page_range of 3, on the 5th page you'll see links to page 4, 5, 6)
+    default_options:
+        page_name: page                 # page query parameter name
+        sort_field_name: sort           # sort field query parameter name
+        sort_direction_name: direction  # sort direction query parameter name
+        distinct: true                  # ensure distinct results, useful when ORM queries are using GROUP BY statements
+#        filter_field_name: filterField  # filter field query parameter name
+#        filter_value_name: filterValue  # filter value query parameter name
+    template:
+        pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'     # boostrap 4 template
+        sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template
+        filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template

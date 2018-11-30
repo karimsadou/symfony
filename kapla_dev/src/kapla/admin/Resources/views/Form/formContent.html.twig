@@ -1,0 +1,47 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+                    <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+                </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                <a href="{{ path('admin_content_edit', {"slug": slug}) }}">
+                    Modification de {{ slug|capitalize }}
+                </a>
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="container">
+        {% for flashMessage in app.session.flashbag.get('error') %}
+
+            <p class="btn btn-danger" style="width: 100%">{{ flashMessage }}</p>
+
+        {% endfor %}
+        <h1>
+            Modèle
+        </h1>
+        <h2> Création d'un modèle </h2>
+
+
+
+                {{ form_start(form) }}
+
+                {{ form_label(form.title,'Titre') }}
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title) }}
+
+                {{ form_label(form.content.type,'Type') }}
+                {{ form_errors(form.content.type) }}
+                {{ form_widget(form.content.type) }}
+
+                {{ form_widget(form.save) }}
+                {{ form_end(form) }}
+
+    </div>
+{% endblock %}

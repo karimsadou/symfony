@@ -1,0 +1,28 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: 127.0.0.1
+    database_port: 5432
+    database_name: kapla
+    database_user: postgres
+    database_password: root
+    test_database_host: 127.0.0.1
+    test_database_port: 5432
+    test_database_name: test_postgres
+    test_database_user: postgres
+    test_database_password: root
+    mailer_transport: smtp
+    mailer_host: in-v3.mailjet.com
+    mailer_user: 2e7a53f813b6271222508937b0d670e7
+    mailer_password: 113b55eb4c05f36b967fff1f9266d46c
+    mailer_port: 587
+    mailer_encryption: tls
+    secret: 5eefafb9a381908b04485b2a6e7ac0013a6131f8
+    mail_transmitter: noreply@alctraining.fr
+    alcmail: anthony.genot@acensi.fr
+    alcurl: null
+
+    # You should uncomment this if you want to use pdo_sqlite
+    #database_path: '%kernel.root_dir%/../var/data/data.sqlite'
+

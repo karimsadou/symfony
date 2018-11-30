@@ -1,0 +1,26 @@
+page:
+    resource: "@PageBundle/Resources/config/routing.yml"
+
+pagelist:
+    resource: "@PageListBundle/Resources/config/routing.yml"
+
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+
+richtext:
+    resource: "@RichTextBundle/Resources/config/routing.yml"
+
+video:
+    resource: "@VideoBundle/Resources/config/routing.yml"
+
+gallery:
+    resource: "@GalleryBundle/Resources/config/routing.yml"
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"

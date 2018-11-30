@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block preview %}
+    {% include 'GalleryBundle:Default:show.html.twig' %}
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+
+
+
+        {{ form_start(form, {'attr': {'id': 'form'}}) }}
+        {{ form_widget(form.editPreview) }}
+        {{ form_widget(form.retour) }}
+        <br><br><br><br> <br><br><br><br>
+        <h1>Formulaire galerie</h1>
+        {{ form_label(form.titre) }}
+        {{ form_errors(form.titre) }}
+        {{ form_widget(form.titre) }}
+
+        {{ form_label(form.theme) }}
+        {{ form_errors(form.theme) }}
+        {{ form_widget(form.theme) }}
+        <hr>
+
+        <h2>{{ form_label(form.images, "Liste des images" ) }}</h2>
+        {{ form_errors(form.images) }}
+        <table class="table" id="table">
+            <thead>
+
+            <tr>
+                <th>Image</th>
+                <th>Légende</th>
+                <th>Liens externes</th>
+                <th>Upload</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="galform" class="sortable">
+            {% for image in form.images %}
+                <tr>
+
+                    <td>
+                        {% for key,value in tab %}
+                            {%  if ( key == image.vars['value'].image.id ) %}
+
+                                <img class="img" src="{{ asset(webPath ~ 'images/' ~ value) }}" style="height:100px;" id="prvImg3"  alt="your image"  >
+
+                            {% endif %}
+                        {% endfor %}
+
+
+                    </td>
+                    <td>
+                        {{ form_label(image.caption) }}
+                        {{ form_errors(image.caption) }}
+                        {{ form_widget(image.caption) }}
+                        {{ form_widget(image.numOrder) }}
+                    </td>
+                    <td>
+                        {{ form_label(image.url) }}
+                        {{ form_errors(image.url) }}
+                        {{ form_widget(image.url) }}
+                    </td>
+                    <td >
+                        <!-- upload -->
+                        <div class="row" >
+                            {{  form_label(image.image.image) }}
+
+                            <div class="col">
+                                {{ form_errors(image.image.image) }}
+
+                                {{ form_widget(image.image.image) }}
+                                {{ form_widget(image.image.file, {'attr': {'class': 'invisible'}}) }}
+
+                            </div>
+                        </div>
+                        <!-- End  upload -->
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!-- prototype for added and delete a label   -->
+        <div id="gallerybundle_gallery_images" data-prototype='
+           <tr>
+                <td>
+                     og
+                </td>
+
+                <td>
+                    {{ form_widget(form.images.vars.prototype.numOrder) }}
+                    {{ form_label(form.images.vars.prototype.caption) }}
+                    {{ form_widget(form.images.vars.prototype.caption) }}
+                </td>
+                <td>
+                    {{ form_label(form.images.vars.prototype.url) }}
+                    {{ form_widget(form.images.vars.prototype.url) }}
+                </td>
+                <td>
+                    {{ form_widget(form.images.vars.prototype.image.file, {'attr': {'class': 'invisible'}} ) }}
+                    {{ form_widget(form.images.vars.prototype.image.image) }}
+
+                </td>
+           </tr>
+        '>
+        </div>
+
+        <a href="#" id="add_image" type="button" class="btn btn-primary">Ajouter une image</a><br><br>
+        <!-- and prototype -->
+
+
+        {{ form_widget(form.updatePreview) }}
+        {{ form_widget(form.edit) }}
+
+        <a href="{{ app.request.headers.get('referer') }}" type="button" class="btn btn-primary">Retour</a><br><br>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+
+
+
+
+
+
+

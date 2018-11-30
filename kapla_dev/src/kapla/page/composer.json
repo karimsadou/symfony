@@ -1,0 +1,43 @@
+{
+    "name": "kapla/page",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "kapla\\page\\": ""
+        }
+    },
+    "repositories": [
+		{
+            "type": "git",
+            "url": "https://bitbucket.acensi.fr/scm/in/richtext.git"
+        },
+        {
+            "type": "git",
+            "url": "https://bitbucket.acensi.fr/scm/in/video.git"
+        },
+        {
+            "type": "git",
+            "url": "https://bitbucket.acensi.fr/scm/in/gallery.git"
+        },
+        {
+            "type": "git",
+            "url": "https://bitbucket.acensi.fr/scm/in/upload.git"
+        },
+        {
+            "type": "git",
+            "url": "https://bitbucket.acensi.fr/scm/in/admin.git"
+        },
+        {
+            "type": "git",
+            "url": "https://bitbucket.acensi.fr/scm/in/pagelist.git"
+        }
+    ],
+    "require": {
+    	"kapla/richtext": "dev-master",
+        "kapla/video": "dev-master",
+        "kapla/gallery": "dev-master",
+        "kapla/upload": "dev-master",
+        "kapla/admin": "dev-master",
+        "kapla/pagelist": "dev-master"
+    }
+}

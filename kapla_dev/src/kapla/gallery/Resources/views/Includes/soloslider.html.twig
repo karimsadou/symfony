@@ -1,0 +1,16 @@
+<div id="slider1" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner sliderGalery">
+        {% for image in gallery.images %}
+        <div class="carousel-item active bg-overlay-black" style="background-image: url('{{ asset(webPath ~ 'images/' ~ image.image.image) }}');">
+            <!--si titre slide-->
+            <div class="titleSlide">
+                <!--<h1>ACENSI LEARNING CENTER</h1>-->
+                <picture>
+                    <source srcset="{{ asset('bundles/page/img/general/alc_logo_vertical.png') }}" media="(max-width:768px)">
+                    <img id="logo" src="{{ asset('bundles/page/img/general/alc_logo.png') }}" alt="Acensi Learning Center">
+                </picture>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

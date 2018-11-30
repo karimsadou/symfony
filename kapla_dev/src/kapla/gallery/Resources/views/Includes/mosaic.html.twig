@@ -1,0 +1,17 @@
+<section class="blockPartenaires d-flex align-items-center">
+    <div class="container">
+        <div class="row px-3 py-5 d-block">
+            <h3 class="col-12">{{ gallery.titre }}</h3>
+        </div>
+        <div class="row text-center align-items-center justify-content-center">
+            {% for images in gallery.images %}
+                <article class="col-12 col-sm-6 col-md-3 py-4">
+                            <a href="{{ images.url }}" target="_blank">
+                                <img src="{{ asset(webPath ~ 'images/' ~ images.image.image) }}" alt="{{ images.caption }}" id="prvImg2">
+                            </a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+

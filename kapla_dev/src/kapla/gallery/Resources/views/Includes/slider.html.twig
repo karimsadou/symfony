@@ -1,0 +1,30 @@
+<!-- si slider et si >= 2 img -->
+<div id="slider2" class="carousel slide" data-ride="carousel">
+    <!-- incicateurs-->
+    {% set i = 0 %}
+    {% set nbimg = gallery.images|length %}
+    <ol class="carousel-indicators">
+        {% for i in 0..(nbimg - 1) %}
+            {% if i != 0 %}
+                <li data-target="#slider2" data-slide-to="{{ i }}"></li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+    <!--images-->
+    <div class="carousel-inner sliderGalery">
+        <!--slide active-->
+        {% for image in gallery.images %}
+            {% if loop.first %}
+                <div class="carousel-item active bg-overlay-black" style="background-image: url('{{ asset(webPath ~ 'images/' ~ image.image.image) }}');">
+            {% else %}
+                <div class="carousel-item bg-overlay-black" style="background-image: url('{{ asset(webPath ~ 'images/' ~ image.image.image) }}');">
+            {% endif %}
+
+                <!--si titre slide-->
+                <div class="titleSlide">
+                    <h2>{{ image.caption }}</h2>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

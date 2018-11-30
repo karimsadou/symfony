@@ -1,0 +1,75 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+            <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+        </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                {{ slug|capitalize }}
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="container">
+        {% if categories is not empty %}
+        <h1>Category</h1>
+            
+            <table class="table">
+                <thead></thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Parent</th>
+                    <th>Main page</th>
+                    <th>Action</th>
+                </tr>
+                <tbody>
+
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.parent }}</td>
+                            <td>{{ category.mainpage }}</td>
+                            <td>
+                                <a href="{{ path('admin_category_edit', { "slug" : category.slug }) }}" type="button" class="btn btn-primary">Modifier</a>
+                                <a href="#" data-catToDelete="{{ path('admin_category_delete', {"slug": category.slug}) }}" type="button" class="btn btn-danger sweetalert">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Il n'y a pas de catégorie actuellement.
+            </div>
+        {% endif %}
+        <a href="{{ path("admin_category_add") }}" type="button" class="btn btn-primary">Créer une catégorie</a>
+        <a href="{{ path("admin_category_sort") }}" type="button" class="btn btn-primary">Ordonner les catégories</a>
+        <a href="{{ path("admin_dashboard") }}" type="button" class="btn btn-primary">Retour</a>
+    </div>
+    <script>
+        $(function(){
+            $('.sweetalert').on('click', function(){
+                swal({
+                    title: "Etes-vous sûr?",
+                    text: "Une fois supprimée, vous ne pourrez plus récupérer la catégorie!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location.replace($(this).attr('data-catToDelete'));
+                        } else {
+                            swal("La catégorie n'a pas été supprimée!");
+                        }
+                    });
+            })
+        });
+    </script>
+{% endblock %}

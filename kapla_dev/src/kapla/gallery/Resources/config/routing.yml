@@ -1,0 +1,4 @@
+richtext:
+    resource: "@GalleryBundle/Controller/"
+    type:     annotation
+    prefix:   /

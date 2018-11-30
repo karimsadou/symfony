@@ -1,0 +1,353 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+            <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+        </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                <a href="{{ path('admin_page_edit', {"slug": slug}) }}">
+                    Modification de {{ slug|capitalize }}
+                </a>
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="container">
+
+            <h1>Organisation de page</h1>
+
+                <h2>Page</h2>
+                {{ form_start(form, {'attr': {'id': 'form'}}) }}
+
+                {#last_name#}
+                {{ form_label(form.title, "Titre :" ) }}
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title, {}) }}
+
+                <h2>Catégorie</h2>
+                {#Categorie#}
+                {{ form_label(form.category, "Catégorie :" ) }}
+                {{ form_errors(form.category) }}
+                {{ form_widget(form.category, {}) }}
+
+        {#bloc titre#}
+
+        <div class="container">
+                    <h2>{{ form_label(form.Blocs, "Blocs" ) }}</h2>
+                        {{ form_errors(form.Blocs) }}
+                    <table class="table">
+                    <thead>
+                     <tr>
+                        <th>Titre</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                     </tr>
+                    </thead>
+                    <tbody id="tblocs" >
+                        <tr class="sort-disabled"><td colspan="6"></td></tr>
+                        {% for bloc in form.Blocs %}
+                        {% if bloc.typeBloc.vars.data == 0 %}
+                        <tr >
+                            <td>
+                                {{ form_widget(bloc.typeBloc) }}
+                                {{ form_widget(bloc.num_order) }}
+                                {{ form_widget(bloc.title) }}
+
+                            </td>
+                            <td>
+                                {{ form_widget(bloc.content.type) }}
+                            </td>
+
+                        </tr>
+                        {% endif %}
+                            {{ form_row(bloc.save, {'attr': {'style': 'display : none'}}) }}
+                        {% endfor %}
+                    </tbody>
+                        <tbody id="tmulti" >
+                            <tr class="sort-disabled">
+                                <td colspan="6"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <div id="tblocs_prototype" data-prototype='
+                        <tr>
+                            <td>
+                                {{ form_widget(form.Blocs.vars.prototype.typeBloc)}}
+                                {{ form_widget(form.Blocs.vars.prototype.num_order) }}
+                                {{ form_widget(form.Blocs.vars.prototype.title) }}
+                                {{ form_widget(form.Blocs.vars.prototype.save, {'attr': {'style': 'display : none'}}) }}
+                            </td>
+                            <td>
+                                {{ form_widget(form.Blocs.vars.prototype.content.type) }}
+                            </td>
+                        </tr>'
+                >
+                </div>
+            <div id="multiblocs_prototype" data-prototype='
+                        <tr>
+                            <td>
+                                {{ form_widget(formMultiBloc.Blocs.vars.prototype.title) }}
+                                {{ form_widget(formMultiBloc.Blocs.vars.prototype.num_order) }}
+                                {{ form_widget(formMultiBloc.Blocs.vars.prototype.typeBloc) }}
+                            </td>
+                            <td></td>
+                        </tr>'
+            >
+            </div>
+                    <a href="#" id="add_tbloc" type="button" class="btn btn-primary">Ajouter un bloc</a>
+                    <a href="#" id="add_multibloc" type="button" class="btn btn-primary">Ajouter un modèle</a>
+                </div>
+
+            <div class="row">
+                <table class="table">
+                    <div class="col-6"><thead><th>Bloc Titre</th></thead>
+                    <tbody  id="ttblocs" class="sortable">
+                        <tr class="sort-disabled"><td colspan="6"></td></tr>
+                        {% for bloc in form.Blocs %}
+                        {% if bloc.typeBloc.vars.data == 1 %}
+                        <tr >
+                            <td>
+                                {{ form_widget(bloc.typeBloc) }}
+                                {{ form_widget(bloc.num_order) }}
+                                {{ form_widget(bloc.title) }}
+                            </td>
+                            <td>
+                                {{ form_widget(bloc.content.type) }}
+
+                                {{ form_widget(bloc.save, {'attr': {'style': 'display : none'}}) }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                            {{ form_widget(bloc.save, {'attr': {'style': 'display : none'}}) }}
+
+                        {% endfor %}
+                    </tbody>
+                </div>
+                </table>
+            </div>
+            <div class="row">
+            <table class="table">
+                <div class="col-4"><thead><th>Bloc de Gauche</th></thead>
+                    <tbody id="lblocs" class="sortable">
+                        <tr class="sort-disabled"><td colspan="6"></td></tr>
+                        {% for bloc in form.Blocs %}
+                        {% if bloc.typeBloc.vars.data == 2 %}
+                        <tr >
+                            <td>
+                                {{ form_widget(bloc.typeBloc) }}
+                                {{ form_widget(bloc.num_order) }}
+                                {{ form_widget(bloc.title) }}
+                            </td>
+                            <td>
+                                {{ form_widget(bloc.content.type) }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </div>
+
+            </table>
+            <table class="table">
+                <div class="col-4"><thead><th>Bloc de Droite</th></thead>
+                    <tbody id="rblocs" class="sortable">
+                        <tr  class="sort-disabled"><td colspan="6"></td></tr>
+                        {% for bloc in form.Blocs %}
+                        {% if bloc.typeBloc.vars.data == 3 %}
+                        <tr>
+                            <td>
+                                {{ form_widget(bloc.typeBloc) }}
+                                {{ form_widget(bloc.num_order) }}
+                                {{ form_widget(bloc.title) }}
+                                {{ form_row(bloc.save, {'attr': {'style': 'display : none'}}) }}
+                            </td>
+                            <td>
+                                {{ form_widget(bloc.content.type) }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                            {{ form_row(bloc.save, {'attr': {'style': 'display : none'}}) }}
+                        {% endfor %}
+                    </tbody>        
+            </table>
+        </div>
+
+                    <h2>Miniature de la page</h2>
+                    {{ form_label(form.upfile.image) }}
+                    {{ form_errors(form.upfile.image) }}
+                    {% if page.upfile.image is defined %}
+                        {{ form_widget(form.upfile.image) }}
+                    {% else %}
+                        {{ form_widget(form.upfile.image, {'attr': {'required':'true'}}) }}
+                    {% endif %}
+                    {{ form_widget(form.upfile.file, {'attr': {'style': 'display : none'}}) }}
+                    {% if page.upfile.image is defined %}
+                        <img src="{{ asset(webPath ~ 'images/' ~ page.upfile.image) }}" alt="image" class="img-thumbnail" width="100px" height="100px" id="prvImg">
+                    {% else %}
+                        <img src="" alt="image" class="img-thumbnail" width="100px" height="100px" id="prvImg" style="display: none">
+                    {% endif %}
+
+
+        {{ form_widget(form.save) }}
+
+        <a href="{{ path('admin_page_listing') }}" type="button" class="btn btn-primary">Retour</a>
+        {{ form_end(form) }}
+    </div>
+    <style>  .sortable { background: #eee;}
+
+    .cursorDrag
+    {
+        cursor: move;
+    }
+    </style>
+
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+
+
+    <script type="text/javascript">
+
+
+  $( function() {
+    $( "tbody" ).sortable({connectWith: "tbody",
+    items: ">*:not(.sort-disabled)"
+});
+    $( ".sortable" ).disableSelection();
+  } );
+
+
+        $( "#form" ).submit(function( event ) {
+            var $table = $('#tblocs');
+            var i = 0;
+            $table.children('tr').each(function() {
+                $(this).find('input:hidden').val(i);
+                $(this).find('.typeBlocClass').val(0);
+                i++;
+            });
+            var $table = $('#ttblocs');
+            $table.children('tr').each(function() {
+                $(this).find('input:hidden').val(i);
+                $(this).find('.typeBlocClass').val(1);
+                i++;
+            });
+            var $table = $('#lblocs');
+            $table.children('tr').each(function() {
+                $(this).find('input:hidden').val(i);
+                $(this).find('.typeBlocClass').val(2);
+                i++;
+            });
+            var $table = $('#rblocs');
+            $table.children('tr').each(function() {
+                $(this).find('input:hidden').val(i);
+                $(this).find('.typeBlocClass').val(3);
+                i++;
+            });
+        });
+
+        $("#form").change(function()
+        {
+            if (document.querySelector('#page_upfile_image').files[0] != undefined)
+            {
+                var fReader = new FileReader();
+                fReader.readAsDataURL(document.querySelector('#page_upfile_image').files[0]);
+                fReader.onloadend = function(event){
+                $('.img-thumbnail').attr('src', event.target.result);
+                $('#prvImg').show();
+            }
+        }
+        });
+        $(document).ready(function() {
+
+            initCollection('div#tblocs_prototype', '#tblocs', '#add_tbloc');
+            initCollection('div#tblocs_prototype', '#lblocs', null);
+            initCollection('div#tblocs_prototype', '#ttblocs', null);
+            initCollection('div#tblocs_prototype', '#rblocs', null);
+            initCollection2('div#multiblocs_prototype', '#tmulti', '#add_multibloc');
+
+
+            function initCollection(proto, table, add_bouton){
+                var $proto = $(proto);
+                var $table = $(table);
+
+                var index = $(table + ' tr').length + 10000;
+
+                $(add_bouton).click(function(e) {
+                    addBloc($proto, $table, index);
+                    index++;
+
+                    e.preventDefault();
+                    return false;
+                });
+                    $table.children('tr').each(function() {
+                        addDeleteLink($(this));
+                    });
+            }
+
+            function initCollection2(proto, table, add_bouton){
+                var $proto = $(proto);
+                var $table = $(table);
+
+                var index = $(table + ' tr').length + 5000;
+
+                $(add_bouton).click(function(e) {
+                    addBloc2($proto, $table, index);
+                    index++;
+
+                    e.preventDefault();
+                    return false;
+                });
+                    $table.children('tr').each(function() {
+                        addDeleteLink($(this));
+                    });
+            }
+
+            function addBloc2($proto, $table, index) {
+
+                    var template = $proto.attr('data-prototype')
+                            .replace(/__name__label__/g, 'Bloc n°' + (index+1))
+                            .replace(/__name__/g,        index);
+
+                    var $prototype = $(template);
+                    addDeleteLink($prototype);
+                    $table.append($prototype);
+                    $( ".draggable" ).draggable();
+                }
+
+                function addBloc($proto, $table, index) {
+
+                    var template = $proto.attr('data-prototype')
+                            .replace(/__name__label__/g, 'Bloc n°' + (index+1))
+                            .replace(/__name__/g,        index);
+
+                    var $prototype = $(template);
+                    addDeleteLink($prototype);
+                    $table.append($prototype);
+                    $( ".draggable" ).draggable();
+                }
+
+                function addDeleteLink($prototype) {
+
+                    if ($prototype.context != null && $prototype.context.className == "sort-disabled")
+                        return;
+                    var $deleteLink = $('<td><a href="#" type="button" class="btn btn-danger">Supprimer</a><td>');
+                    var $cursor = $('<td><div><img src="{{ asset("bundles/admin/img/move.png") }}"  width="25px" height="25px"  class="cursorDrag"/></div></td>');
+
+                    $prototype.append($deleteLink);
+                    $prototype.append($cursor);
+                    $prototype.append($('<div style="margin-right:50px;"></div>'));
+                    $deleteLink.click(function(e) {
+                        $prototype.remove();
+                        e.preventDefault();
+                        return false;
+                    });
+                }
+        });
+    </script>
+
+{% endblock %}

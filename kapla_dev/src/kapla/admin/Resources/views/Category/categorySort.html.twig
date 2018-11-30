@@ -1,0 +1,119 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'bundles/admin/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+                    <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+                </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                <a href="{{ path('admin_category_edit', {"slug": slug}) }}">
+                    Modification de {{ slug|capitalize }}
+                </a>
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="container">
+        <h1>Category</h1>
+
+
+        {{ form_start(form, {'attr': {'id': 'form_sort_category'}}) }}
+        <div style="display:none;">
+            {{ form_errors(form.categories) }}
+            {{ form_widget(form.categories) }}
+            {{ form_widget(form.save) }}
+            {{ form_end(form) }}
+
+        </div>
+
+
+        {% macro recursiveCategory(category) %}
+            {%  import _self as self %}
+            <li>
+                <span>{{ category.name }}</span>
+                <ol>
+                    {% if category.children is not null %}
+                        {% for subcat in category.children %}
+                            {{  self.recursiveCategory(subcat) }}
+                        {% endfor %}
+                    {% endif %}
+                </ol>
+            </li>
+        {% endmacro %}
+
+        {% from _self import recursiveCategory %}
+
+
+        <ol class='vertical sortmenu'>
+            {% for category in categories.categories %}
+                {% if category.parent == null %}
+                    {{ recursiveCategory(category) }}
+                {% endif %}
+            {% endfor %}
+        </ol>
+
+        <a href="{{ path("admin_category_listing") }}" type="button" class="btn btn-primary">Annuler</a>
+        <input type="button" class="btn btn-primary" value="Valider" onclick="sortTree();"/>
+
+
+    </div>
+
+    {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">#}
+    {#<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">#}
+
+    {#<script src="https://code.jquery.com/jquery-3.3.1.js"#}
+            {#integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="#}
+            {#crossorigin="anonymous"></script>#}
+
+    {#<script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable.js"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+
+    <script>
+        $(".sortmenu").sortable();
+
+        var nameToId = {{ nameToId|raw }};
+
+        function recursive(node, parent, order){
+            var name = node.find("span")[0].innerText;
+            // console.log("noeud courant = " + name + " parent = " + parent + " order = " + order);
+            // console.log("id = " + nameToId[name]);
+            $("#pagebundle_category_categories_" + nameToId[name] + "_num_order").val(order);
+            var val = getVal($("#pagebundle_category_categories_" + nameToId[name] + "_parent"), parent);
+            $("#pagebundle_category_categories_" + nameToId[name] + "_parent").val(val);
+            $(node.find("ol")[0]).children().each(function(i) {
+                recursive($(this), name, i);
+            })
+        }
+
+        function getVal(select, text) {
+            var result = null;
+            select.find("option").each(function() {
+                if (this.innerText == text) {
+                    result = $(this).attr("value");
+                    return false;
+                }
+            })
+            return(result);
+        }
+
+        function sortTree() {
+            $(".sortmenu").children().each(function(i) {
+                recursive($(this), "", i);
+            });
+            $("#form_sort_category").submit();
+        }
+
+    </script>
+
+{% endblock %}

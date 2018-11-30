@@ -1,0 +1,95 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig' %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+            <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+        </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                {{ slug|capitalize }}
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="row">
+        <div class="col-1 offset-11 text-center" style="margin-top: 3px;">
+            {% if mode == 'false' %}
+                <span style="font-weight: bold;">Website ON</span>
+                <a href="{{ path("admin_setup_maintenance") }}" type="button" class="btn btn-success"><i class="fas fa-power-off fa-2x"></i></a>
+            {% else %}
+                <span style="font-weight: bold;">Website OFF</span>
+                <a href="{{ path("admin_setup_maintenance") }}" type="button" class="btn btn-danger"><i class="fas fa-power-off fa-2x"></i></a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container">
+        <h1>Tableau de bord</h1>
+        <div class="row">
+            <div class="col">
+                <h2>Page</h2>
+                <a href="{{ path("admin_page_listing") }}" type="button" class="btn btn-outline-info" >Liste</a>
+                <a href="{{ path("admin_page_add") }}" type="button" class="btn btn-outline-info" >Creation</a>
+            </div>
+            <div class="col">
+                <h2>Catégorie</h2>
+                <a href="{{ path("admin_category_listing") }}" type="button" class="btn btn-outline-info" >Liste</a>
+                <a href="{{ path("admin_category_add") }}" type="button" class="btn btn-outline-info" >Creation</a>
+            </div>
+            <div class="col">
+                <h2>Modèles</h2>
+                <a href="{{ path("admin_content_listing") }}" type="button" class="btn btn-outline-info" >Liste</a>
+                <a href="{{ path("admin_content_add") }}" type="button" class="btn btn-outline-info" >Creation</a>
+            </div>
+        </div>
+        <br><br>
+        {% if listUsers is defined %}
+        <h2>Liste des inscrits</h2>
+        <div style="position: relative;">
+            <img src="{{ asset('bundles/admin/img/research.png') }}" style="position: absolute; top: 7px; left:2px">
+            <input id="searchUsers" style="border: 1px solid dodgerblue;padding-left: 30px; margin-bottom: 20px; " class="form-control mr-sm-2" type="search" placeholder="Tapez votre recherche ici..">
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Société</th>
+                <th>Fonction</th>
+                <th>Ville</th>
+                <th>Pays</th>
+                <th>Prénom Bénéficiaire</th>
+                <th>Nom bénéficiaire</th>
+                <th>Formation choisie</th>
+                <th>Date inscription</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for u in listUsers %}
+                <tr>
+                    DEFAULT VIEW
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row align-items-center justify-content-center">
+            {{ knp_pagination_render(listUsers) }}
+        </div>
+        {% endif %}
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#searchUsers").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+{% endblock %}

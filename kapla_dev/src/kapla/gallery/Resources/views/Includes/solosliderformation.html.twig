@@ -1,0 +1,12 @@
+<div id="slider1" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner sliderGalery">
+        {% for image in gallery.images %}
+        <div class="carousel-item active bg-overlay-blue" style="background-image: url('{{ asset(webPath ~ 'images/' ~ image.image.image) }}');">
+            <!--si titre slide-->
+            <div class="titleSlide">
+                <h2>{{ gallery.titre }}</h2>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

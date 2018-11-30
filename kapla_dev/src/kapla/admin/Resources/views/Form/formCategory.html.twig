@@ -1,0 +1,46 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+                    <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+                </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                <a href="{{ path('admin_category_edit', {"slug": slug}) }}">
+                    Modification de {{ slug|capitalize }}
+                </a>
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="container">
+        <h1>Edition d'une catégorie</h1>
+
+
+        {{ form_start(form, {'attr': {'id': 'form'}}) }}
+
+        {#name#}
+        {{ form_label(form.name, "Name :" ) }}
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name, {}) }}
+
+        {#parent#}
+        {{ form_label(form.parent, "Parent :" ) }}
+        {{ form_errors(form.parent) }}
+        {{ form_widget(form.parent, {}) }}
+
+        {#page principale#}
+        {{ form_label(form.mainpage, "Main page :" ) }}
+        {{ form_errors(form.mainpage) }}
+        {{ form_widget(form.mainpage, {}) }}
+
+        {{ form_widget(form.save) }}
+        <a href="{{ path("admin_category_listing") }}" type="button" class="btn btn-primary">Retour</a>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

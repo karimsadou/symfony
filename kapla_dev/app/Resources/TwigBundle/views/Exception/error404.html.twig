@@ -1,0 +1,42 @@
+{%  extends 'PageBundle:Template:pageTemplate.html.twig'  %}
+
+{%  block title %}
+    Erreur 404
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/page/error/css/error404.css ") }} ">
+{% endblock %}
+
+{% block menu %}
+    {{ render(controller('PageBundle:Menu:list', {'slug': '', 'static': true})) }}
+{% endblock %}
+
+{%  block content %}
+    <main>
+        <section>
+            <!-- Error Page -->
+            <div class="error">
+                <div class="container-fluid">
+                    <div class="col-xs-12 ground-color text-center">
+                        <div class="container-error-404">
+                            <div class="clip"><div class="shadow"><span class="digit thirdDigit"></span></div></div>
+                            <div class="clip"><div class="shadow"><span class="digit secondDigit"></span></div></div>
+                            <div class="clip"><div class="shadow"><span class="digit firstDigit"></span></div></div>
+                            <div class="msg">OH!<span class="triangle"></span></div>
+                        </div>
+                        <h2 class="h1">Oups! La page n'a pas été trouvée</h2>
+                        <h3><a href="{{ path('homepage') }}">Retour à la page d'accueil</a></h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Error Page -->
+        </section>
+    </main>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset("bundles/page/error/js/error404.js") }}"></script>
+{% endblock %}

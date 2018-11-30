@@ -1,0 +1,74 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block content %}
+    {% if breadcrumb is defined %}
+        <nav class="breadcrumb">
+            {% for item in breadcrumb %}
+                <span>
+            <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+        </span>
+            {% endfor %}
+            {% if slug is defined %}
+                <span>
+                <a href="{{ path('admin_page_show', {"slug": slug}) }}">
+                    {{ slug|capitalize }}
+                </a>
+            </span>
+            {% endif %}
+        </nav>
+    {% endif %}
+    <div class="container">
+        {% if bloc is not empty %}
+            <h1>Modèles</h1>
+
+            <table class="table">
+                <thead></thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+                <tbody>
+
+                {% for bloc in bloc %}
+                    <tr>
+                        <td>{{ bloc.title }}</td>
+                        <td>{{ bloc.content.type }}</td>
+                        <td>
+                            <a href="{{ path(bloc.content.type ~ "Bundle_edit", {"id": bloc.id, "slug" : "content" }) }}" type="button" class="btn btn-primary">Modifier le modèle</a>
+                            <a href="{{ path("admin_content_delete", {"id": bloc.id}) }}" type="button" class="btn btn-danger sweetalert">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Il n'y a pas de modèle actuellement.
+            </div>
+        {% endif %}
+        <a href="{{ path("admin_content_add") }}" type="button" class="btn btn-primary">Ajouter un modèle</a>
+        <a href="{{ path("admin_dashboard") }}" type="button" class="btn btn-primary">Retour</a>
+    </div>
+    {#<script>#}
+        {#$(function(){#}
+            {#$('.sweetalert').on('click', function(){#}
+                {#swal({#}
+                    {#title: "Etes-vous sûr?",#}
+                    {#text: "Une fois supprimée, vous ne pourrez plus récupérer ce contenu!",#}
+                    {#icon: "warning",#}
+                    {#buttons: true,#}
+                    {#dangerMode: true,#}
+                {#})#}
+                    {#.then((willDelete) => {#}
+                        {#if (willDelete) {#}
+                            {#window.location.replace($(this).attr('data-catToDelete'));#}
+                        {#} else {#}
+                            {#swal("La catégorie n'a pas été supprimée!");#}
+                        {#}#}
+                    {#});#}
+            {#})#}
+        {#});#}
+    {#</script>#}
+{% endblock %}

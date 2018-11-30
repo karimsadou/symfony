@@ -1,0 +1,14 @@
+services:
+#    gallery.example:
+#        class: GalleryBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+parameters:
+    gallery_theme:
+        filtre image unique blue: overlay_blue
+        filtre image unique black: overlay_dark
+        carousel d'images: carousel
+        petit carousel: smallslider
+        mozaique d'images: mosaic
+        mozaique d'images fond gris: mosaic-grey
+

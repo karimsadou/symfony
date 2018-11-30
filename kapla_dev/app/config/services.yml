@@ -1,0 +1,20 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+
+services:
+    alc.files_uploader:
+            class: kapla\upload\Upload
+            arguments: ['%files_directory%']
+
+    alc.doctrine_files_listener:
+        class: kapla\upload\EventListener\UploadListener
+        arguments: ['@alc.files_uploader']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+    AdminBundle\DataFixtures\ORM\LoadDB: 
+        class: kapla\admin\DataFixtures\ORM\LoadDB
+        calls:
+        - [ setContainer, [ '@service_container' ] ]

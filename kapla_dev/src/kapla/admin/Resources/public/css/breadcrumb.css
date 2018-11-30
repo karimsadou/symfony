@@ -1,0 +1,4 @@
+.breadcrumb span + span:before{
+    content:">";
+    padding-left: 5px;
+}

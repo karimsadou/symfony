@@ -1,0 +1,163 @@
+{%  extends 'AdminBundle:Template:adminTemplate.html.twig'  %}
+
+{% block content %}
+{% if breadcrumb is defined %}
+    <nav class="breadcrumb">
+    {% for item in breadcrumb %}
+        <span>
+            <a href="{{ path(item.route) }}"> {{ item.name }} </a>
+        </span>
+    {% endfor %}
+        {% if slug is defined %}
+            <span>
+                <a href="{{ path('admin_page_show', {"slug": slug}) }}">
+                    {{ slug|capitalize }}
+                </a>
+            </span>
+        {% endif %}
+    </nav>
+{% endif %}
+<div class="container">
+    <h1>Page : {{ page.title }}</h1>
+
+    {% if page.Blocs is not empty%}
+    <h2>Bloc Titre</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bloc in page.Blocs %}
+            {% if bloc.typeBloc == 1 %}
+            <tr>
+                <td>
+                    {{ bloc.title }}
+                </td>
+                <td>
+                    {{ blocLabels[bloc.content.type] }}
+                </td>
+                <td>
+                    <a href="{{ path(bloc.content.type ~ "Bundle_edit", {"slug" : page.slug, "id": bloc.id}) }}" type="button" class="btn btn-outline-primary">Gérer bloc</a>
+                    {% if bloc.published == true %}
+                        <a href="{{ path('admin_page_publish', { "slug" : page.slug, "id" : loop.index - 1}) }}" type="button" class="btn btn-outline-primary">Dépublier</a>
+                    {% else %}
+                        <a href="{{ path('admin_page_publish', { "slug" : page.slug, "id" : loop.index - 1}) }}" type="button" class="btn btn-outline-primary">Publier</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+
+    {% if page.Blocs is not empty%}
+    <h2>Bloc de Gauche</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bloc in page.Blocs %}
+            {% if bloc.typeBloc == 2 %}
+            <tr>
+                <td>
+                    {{ bloc.title }}
+                </td>
+                <td>
+                    {{ blocLabels[bloc.content.type] }}
+                </td>
+                <td>
+                    <a href="{{ path(bloc.content.type ~ "Bundle_edit", {"id": bloc.id, "slug":  page.slug}) }}" type="button" class="btn btn-outline-primary">Gérer bloc</a>
+                    {% if bloc.published == true %}
+                        <a href="{{ path('admin_page_publish', { "slug" : page.slug, "id" : loop.index - 1}) }}" type="button" class="btn btn-outline-primary">Dépublier</a>
+                    {% else %}
+                        <a href="{{ path('admin_page_publish', { "slug" : page.slug, "id" : loop.index - 1}) }}" type="button" class="btn btn-outline-primary">Publier</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if page.Blocs is not empty%}
+    <h2>Bloc de Droite</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bloc in page.Blocs %}
+            {% if bloc.typeBloc == 3 %}
+            <tr>
+                <td>
+                    {{ bloc.title }}
+                </td>
+                <td>
+                    {{ blocLabels[bloc.content.type] }}
+                </td>
+                <td>
+                    <a href="{{ path(bloc.content.type ~ "Bundle_edit", {"id": bloc.id, "slug":  page.slug}) }}" type="button" class="btn btn-outline-primary">Gérer bloc</a>
+                    {% if bloc.published == true %}
+                        <a href="{{ path('admin_page_publish', { "slug" : page.slug, "id" : loop.index - 1}) }}" type="button" class="btn btn-outline-primary">Dépublier</a>
+                    {% else %}
+                        <a href="{{ path('admin_page_publish', { "slug" : page.slug, "id" : loop.index - 1}) }}" type="button" class="btn btn-outline-primary">Publier</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+{% if page.Blocs is not empty%}
+    <h2>Bloc Non Défini</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bloc in page.Blocs %}
+            {% if bloc.typeBloc == 0 %}
+            <tr>
+                <td>
+                    {{ bloc.title }}
+                </td>
+                <td>
+                    {{ blocLabels[bloc.content.type] }}
+                </td>
+                <td>
+                    <a href="{{ path(bloc.content.type ~ "Bundle_edit", {"id": bloc.id, "slug":  page.slug}) }}" type="button" class="btn btn-outline-primary">Gérer bloc</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <a href="{{ path('admin_page_edit', { "slug" : page.slug }) }}" type="button" class="btn btn-primary">Gérer la page</a>
+    <a href="{{ path('admin_page_listing') }}" type="button" class="btn btn-primary">Retour</a>
+{% endblock %}
+
+
+

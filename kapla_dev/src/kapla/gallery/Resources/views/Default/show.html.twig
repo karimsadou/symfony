@@ -1,0 +1,13 @@
+{% if gallery.theme == "overlay_dark"   %}
+    {% include 'GalleryBundle:Includes:soloslider.html.twig' %}
+{% elseif gallery.theme == "overlay_blue"%}
+    {% include 'GalleryBundle:Includes:solosliderformation.html.twig' %}
+{% elseif gallery.theme == "mosaic"%}
+    {% include 'GalleryBundle:Includes:mosaic.html.twig' %}
+{% elseif gallery.theme == "smallslider"%}
+    {% include 'GalleryBundle:Includes:smallslider.html.twig' %}
+{% elseif gallery.theme == "mosaic-grey"%}
+    {% include 'GalleryBundle:Includes:mosaic-grey.html.twig' %}
+{% else %}
+    {% include 'GalleryBundle:Includes:slider.html.twig' %}
+{% endif %}

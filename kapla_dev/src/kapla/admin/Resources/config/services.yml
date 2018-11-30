@@ -1,0 +1,17 @@
+services:
+#    admin.example:
+#        class: AdminBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    maintenance_listener:
+        class: kapla\admin\Event\MaintenanceListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+parameters:
+    bloctype:
+        texte: RichText
+        galerie: Gallery
+        mosaique de pages: PageList
+        video:  Video
